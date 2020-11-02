@@ -1,9 +1,6 @@
 package com.wine.to.up.simple.parser.service;
 
-import java.io.IOException;
-
-import com.wine.to.up.simple.parser.service.SimpleParser.Parser;
-
+import com.wine.to.up.simple.parser.service.SimpleParser.ParserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,21 +15,21 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 @EnableScheduling
 public class ServiceApplication {
+    private final ParserService parserService;
 
-    private final Parser parser;
-
-    public ServiceApplication(Parser parser) {
-        this.parser = parser;
+    public ServiceApplication(ParserService parserService) {
+        this.parserService = parserService;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(ServiceApplication.class, args);
     }
 
-    @Scheduled(fixedDelayString = "PT12H") // run once in 12 hours
-    void scheduledRunParser() throws IOException {
+    @Scheduled(fixedDelayString = "PT12H")
+        // run once in 12 hours
+    void scheduledRunParser() {
         log.info("SCHEDULED PARSER START");
-        parser.startParser();
+        parserService.startParser();
     }
 
 }
